@@ -1,0 +1,128 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "experimental": {
+    "batch_tool": true
+  },
+  "plugin": [
+    "superpowers@git+https://github.com/obra/superpowers.git",
+    "opencode-agent-skills",
+    "opencode-antigravity-auth@latest",
+    "@tarquinen/opencode-dcp@latest",
+    "opencode-snip@latest",
+    "opencode-notification@latest",
+    "opencode-handoff",
+    "opencode-kilo-auth@latest"
+  ],
+  "instructions": [
+    "~/.config/opencode/instructions/autonomy.md",
+    "~/.config/opencode/instructions/delivery.md",
+    "~/.config/opencode/instructions/questions-policy.md",
+    "~/.config/opencode/instructions/morph-tools.md",
+    "~/.config/opencode/instructions/api-design.md",
+    "~/.config/opencode/instructions/code-style.md",
+    "~/.config/opencode/instructions/self-improvement-rules.md",
+    "~/.config/opencode/instructions/testing.md",
+    "~/.config/opencode/instructions/delegation.md",
+    "~/.config/opencode/instructions/subagent-driven-development-policy.md"
+  ],
+  "compaction": {
+    "model": "opencode-go/deepseek-v4-flash"
+  },
+  "agent": {
+    "explore": {
+      "description": "Fast read-only search agent for locating code, files, and symbols using glob patterns and grep",
+      "mode": "subagent",
+      "model": "opencode-go/deepseek-v4-flash",
+      "permission": {
+        "edit": "deny",
+        "bash": "allow"
+      },
+      "prompt": "~./prompts/explore.md"
+    },
+    "git-agent": {
+      "description": "Write-capable git operations agent — stages, commits, branches, and generates PR descriptions. Never touches source code.",
+      "mode": "subagent",
+      "model": "opencode/mimo-v2.5-free",
+      "permission": {
+        "edit": "deny",
+        "bash": "allow"
+      },
+      "prompt": "~./prompts/git.md"
+    },
+    "docs-fetcher": {
+      "description": "Read-only documentation fetcher — pulls targeted excerpts from Context7 or WebFetch. Never dumps raw pages.",
+      "mode": "subagent",
+      "model": "opencode/mimo-v2.5-free",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      },
+      "prompt": "~./prompts/docs.md"
+    },
+    "test-engineer": {
+      "description": "Bash-only build, compile, lint, and test agent. Runs commands and reports results — never edits code.",
+      "mode": "subagent",
+      "model": "opencode/mimo-v2.5-free",
+      "permission": {
+        "edit": "deny",
+        "bash": "allow"
+      },
+      "prompt": "~./prompts/test.md"
+    },
+    "spec-verifier": {
+      "description": "Spec-compliance reviewer. Independently verifies that implementation matches the specification, distrusting any implementer’s claims.",
+      "mode": "subagent",
+      "model": "opencode/mimo-v2.5-free",
+      "permission": {
+        "edit": "deny",
+        "bash": "allow"
+      },
+      "prompt": "~./prompts/spec.md"
+    },
+    "code-reviewer": {
+      "description": "Senior code reviewer. Reviews code quality, security, performance, and best practices. All claims must be backed by fresh verification evidence.",
+      "mode": "subagent",
+      "model": "opencode-go/mimo-v2.5-pro",
+      "permission": {
+        "edit": "deny",
+        "bash": "allow"
+      },
+      "prompt": "~./prompts/review.md"
+    }
+  },
+  "autoupdate": true,
+  "mcp": {
+    "Context7": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp",
+        "--api-key",
+        ""
+      ],
+      "enabled": true
+    },
+    "Chrome DevTools": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ],
+      "enabled": true
+    },
+    "21st": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@21st-dev/magic@latest"
+      ],
+      "enabled": true,
+      "environment": {
+        "API_KEY": ""
+      }
+    }
+  }
+}
