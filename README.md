@@ -15,6 +15,7 @@ AI coding agent configuration for [OpenCode](https://opencode.ai). Contains suba
 
 ```
 ├── opencode.json          # Main config — agents, plugins, MCP, instructions
+├── dcp.jsonc              # Deep Context Preservation config — compression, nudges, subagent support
 ├── AGENTS.md              # Behavioral guidelines for LLM agents
 ├── .gitignore
 ├── instructions/          # 12 instruction files loaded into every session

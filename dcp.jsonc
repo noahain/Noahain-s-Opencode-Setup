@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Opencode-DCP/opencode-dynamic-context-pruning/master/dcp.schema.json",
+  "compress": {
+    "maxContextLimit": 750000,
+    "minContextLimit": 750000,
+    "nudgeFrequency": 2,
+    "nudgeForce": "strong",
+    "protectUserMessages": true,
+    "summaryBuffer": true
+  },
+  "experimental": {
+    "allowSubAgents": true
+  }
+}
