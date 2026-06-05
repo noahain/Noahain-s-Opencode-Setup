@@ -50,7 +50,7 @@ AI coding agent configuration for [OpenCode](https://opencode.ai). Contains suba
 ## Subagents
 
 | Agent | Model | Access | Purpose |
-|---|---|---|---|---|
+|---|---|---|---|
 | `@explore` | opencode-go/deepseek-v4-flash | bash (read-only) | Code/file search |
 | `@git-agent` | opencode/mimo-v2.5-free | bash (read-only) | Git operations |
 | `@docs-fetcher` | opencode/mimo-v2.5-free | none | Documentation lookup |
