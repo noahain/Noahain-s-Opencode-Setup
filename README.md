@@ -11,22 +11,6 @@ AI coding agent configuration for [OpenCode](https://opencode.ai). Contains suba
 - **3 MCP servers** — Context7 (docs), Chrome DevTools (browser automation), 21st.dev (UI components)
 - **RPD optimization mode** — parallel tool calls, batched reads, no permission seeking
 
-## Prerequisites
-
-- [OpenCode](https://opencode.ai) CLI installed
-- Node.js 18+ (for npx-based MCP servers)
-- Git
-
-## Installation
-
-```bash
-git clone https://github.com/noahain/Noahain-s-Opencode-Setup.git
-cd Noahain-s-Opencode-Setup
-opencode
-```
-
-The configuration is loaded automatically from `opencode.json` when OpenCode starts in this directory.
-
 ## Structure
 
 ```
@@ -66,13 +50,13 @@ The configuration is loaded automatically from `opencode.json` when OpenCode sta
 ## Subagents
 
 | Agent | Model | Access | Purpose |
-|---|---|---|---|
-| `@explore` | deepseek-v4-flash | bash (read-only) | Code/file search |
-| `@git-agent` | mimo-v2.5-free | bash (read-only) | Git operations |
-| `@docs-fetcher` | mimo-v2.5-free | none | Documentation lookup |
-| `@test-engineer` | mimo-v2.5-free | bash (read-only) | Build/test/lint |
-| `@spec-verifier` | mimo-v2.5-free | bash (read-only) | Spec compliance |
-| `@code-reviewer` | mimo-v2.5-pro | bash (read-only) | Code quality review |
+|---|---|---|---|---|
+| `@explore` | opencode-go/deepseek-v4-flash | bash (read-only) | Code/file search |
+| `@git-agent` | opencode/mimo-v2.5-free | bash (read-only) | Git operations |
+| `@docs-fetcher` | opencode/mimo-v2.5-free | none | Documentation lookup |
+| `@test-engineer` | opencode/mimo-v2.5-free | bash (read-only) | Build/test/lint |
+| `@spec-verifier` | opencode/mimo-v2.5-free | bash (read-only) | Spec compliance |
+| `@code-reviewer` | opencode-go/mimo-v2.5-pro | bash (read-only) | Code quality review |
 
 ## MCP Servers
 
