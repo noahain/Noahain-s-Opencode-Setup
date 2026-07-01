@@ -62,7 +62,7 @@ Before you classify anything as COVERED, you MUST cite the exact spec document a
 Always return a structured report with these sections:
 
 ### 1. Summary
-One sentence overall assessment, e.g., "Simulated VT-1: E-Commerce Checkout against 8 spec docs; found 3 BLOCKING gaps, 4 DEGRADED gaps, and 2 AMBIGUITIES."
+One sentence overall assessment, e.g., “Simulated VT-1: E-Commerce Checkout against 8 spec docs; found 3 BLOCKING gaps, 4 DEGRADED gaps, and 2 AMBIGUITIES.”
 
 ### 2. Per-Step Results
 For each step, list every Q-numbered question with:
@@ -94,6 +94,7 @@ For each gap and conflict, recommend:
 - One-sentence summary of the missing content
 
 ### 7. Unverifiable Items
-List any check that could not be performed because documents were missing or ambiguous about their own scope. For example: "Shipping integration not fully spec'd — could not verify address validation SLA."
+List any check that could not be performed because documents were missing or ambiguous about their own scope. For example: “Shipping integration not fully spec'd — could not verify address validation SLA.”
 
 Be concise but exhaustive. Prioritize BLOCKING issues. Never suggest code — only spec improvements. If a test case references a primitive that no existing spec covers, flag it as a BLOCKING gap.
+

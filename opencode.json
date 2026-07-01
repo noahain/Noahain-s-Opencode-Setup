@@ -11,101 +11,93 @@
     "opencode-snip@latest",
     "opencode-notification@latest",
     "opencode-handoff",
-    "opencode-kilo-auth@latest"
-  ],
-  "instructions": [
-    "~/.config/opencode/instructions/autonomy.md",
-    "~/.config/opencode/instructions/delivery.md",
-    "~/.config/opencode/instructions/questions-policy.md",
-    "~/.config/opencode/instructions/morph-tools.md",
-    "~/.config/opencode/instructions/api-design.md",
-    "~/.config/opencode/instructions/code-style.md",
-    "~/.config/opencode/instructions/self-improvement-rules.md",
-    "~/.config/opencode/instructions/testing.md",
-    "~/.config/opencode/instructions/delegation.md"
+    "opencode-kilo-auth@latest",
+    "opencode-see-image@1.1.0",
+    "opencode-wakatime",
+    "opencode-devglobe"
   ],
   "compaction": {
-    "model": "opencode-go/deepseek-v4-flash"
+    "model": "deepseek/deepseek-v4-pro"
   },
   "agent": {
     "fast-coder": {
       "description": "Fast coder for simple, repetitive, and boilerplate coding tasks. Optimized for speed, low token usage, and minimal output.",
       "mode": "subagent",
-      "model": "opencode-go/deepseek-v4-flash",
+      "model": "deepseek/deepseek-v4-flash",
       "permission": {
         "edit": "allow",
-        "bash": "allow"
+        "bash": "deny"
       }
     },
     "vibe-tester": {
       "description": "Spec validation simulator. Runs vibe test cases against spec documents to find gaps, conflicts, and ambiguities. All claims must be backed by spec citations.",
       "mode": "subagent",
-      "model": "opencode-go/deepseek-v4-flash",
+      "model": "opencode-go/kimi-k2.7-code",
       "permission": {
         "edit": "deny",
         "bash": "allow"
       },
-      "prompt": "~./prompts/vibe-tester.md"
+      "prompt": "{file:./prompts/vibe-tester.md}"
     },
     "explore": {
       "description": "Fast read-only search agent for locating code, files, and symbols using glob patterns and grep",
       "mode": "subagent",
-      "model": "opencode-go/deepseek-v4-flash",
+      "model": "deepseek/deepseek-v4-flash",
       "permission": {
         "edit": "deny",
         "bash": "allow"
       },
-      "prompt": "~./prompts/explore.md"
+      "prompt": "{file:./prompts/explore.md}"
     },
     "git-agent": {
       "description": "Write-capable git operations agent — stages, commits, branches, and generates PR descriptions. Never touches source code.",
       "mode": "subagent",
-      "model": "opencode/mimo-v2.5-free",
+      "model": "deepseek/deepseek-v4-flash",
       "permission": {
         "edit": "deny",
         "bash": "allow"
       },
-      "prompt": "~./prompts/git.md"
+      "prompt": "{file:./prompts/git.md}"
     },
     "docs-fetcher": {
       "description": "Read-only documentation fetcher — pulls targeted excerpts from Context7 or WebFetch. Never dumps raw pages.",
       "mode": "subagent",
-      "model": "opencode/mimo-v2.5-free",
+      "model": "deepseek/deepseek-v4-pro",
       "permission": {
         "edit": "deny",
         "bash": "deny"
       },
-      "prompt": "~./prompts/docs.md"
+      "prompt": "{file:./prompts/docs.md}"
     },
     "test-engineer": {
       "description": "Bash-only build, compile, lint, and test agent. Runs commands and reports results — never edits code.",
       "mode": "subagent",
-      "model": "opencode/mimo-v2.5-free",
+      "model": "deepseek/deepseek-v4-pro",
       "permission": {
         "edit": "deny",
         "bash": "allow"
       },
-      "prompt": "~./prompts/test.md"
+      "prompt": "{file:./prompts/test.md}"
     },
     "spec-verifier": {
-      "description": "Spec-compliance reviewer. Independently verifies that implementation matches the specification, distrusting any implementer's claims.",
+      "description": "Spec-compliance reviewer. Independently verifies that implementation matches the specification, distrusting any implementer’s claims.",
       "mode": "subagent",
-      "model": "opencode/mimo-v2.5-free",
+      "model": "deepseek/deepseek-v4-pro",
       "permission": {
         "edit": "deny",
         "bash": "deny"
       },
-      "prompt": "~./prompts/spec.md"
+      "prompt": "{file:./prompts/spec.md}"
     },
     "code-reviewer": {
       "description": "Senior code reviewer. Reviews code quality, security, performance, and best practices. All claims must be backed by fresh verification evidence.",
       "mode": "subagent",
-      "model": "opencode-go/mimo-v2.5-pro",
+      "model": "opencode-go/kimi-k2.7-code",
       "permission": {
         "edit": "deny",
         "bash": "allow"
       },
-      "prompt": "~./prompts/review.md"
+      "prompt": "{file:./prompts/review.md}"
     }
   },
   "autoupdate": true,
@@ -142,15 +134,6 @@
       "environment": {
         "API_KEY": ""
       }
-    },
-    "Clipboard Vision": {
-      "type": "local",
-      "command": [
-        ".venv\\Scripts\\python.exe",
-        "-m",
-        "clipboard_vision_mcp"
-      ],
-      "enabled": true
     }
   }
 }

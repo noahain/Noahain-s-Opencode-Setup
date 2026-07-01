@@ -1,35 +1,22 @@
 # Noahain's OpenCode Setup
 
-AI coding agent configuration for [OpenCode](https://opencode.ai). Contains subagent definitions, skill packages, behavioral instructions, and MCP server setup.
+AI coding agent configuration for [OpenCode](https://opencode.ai). Contains subagent definitions, skill packages, behavioral guidelines, and MCP server setup.
 
 ## Features
 
 - **8 specialized subagents** — explore, git-agent, docs-fetcher, test-engineer, spec-verifier, code-reviewer, fast-coder, vibe-tester
-- **96 skills** — reusable packages for frontend, backend, design, debugging, DevOps, and more
-- **11 behavioral instructions** — autonomy, delegation, delivery, code style, API design, testing, self-improvement
-- **8 plugins** — superpowers, opencode-agent-skills, antigravity-auth, dcp, snip, notification, handoff, kilo-auth
-- **4 MCP servers** — Context7 (docs), Chrome DevTools (browser automation), 21st.dev (UI components), Clipboard Vision (screenshots)
+- **101 skills** — reusable packages for frontend, backend, design, debugging, DevOps, and more
+- **11 plugins** — superpowers, agent-skills, antigravity-auth, dcp, snip, notification, handoff, kilo-auth, see-image, wakatime, devglobe
+- **3 MCP servers** — Context7 (docs), Chrome DevTools (browser automation), 21st.dev (UI components)
 - **RPD optimization mode** — parallel tool calls, batched reads, no permission seeking
 
 ## Structure
 
 ```
-├── opencode.json          # Main config — agents, plugins, MCP, instructions
-├── dcp.jsonc              # Deep Context Preservation config — compression, nudges, subagent support
-├── AGENTS.md              # Behavioral guidelines for LLM agents
+├── opencode.json          # Main config — agents, plugins, MCP
+├── dcp.jsonc              # Deep Context Preservation config
+├── AGENTS.md              # Behavioral guidelines for LLM agents (177 lines, loaded as instruction)
 ├── .gitignore
-├── instructions/          # 11 instruction files loaded into every session
-│   ├── autonomy.md        # Full system access, auto-download, no permission seeking
-│   ├── delegation.md      # Must delegate all search/git/test to subagents
-│   ├── delivery.md        # Final delivery contract format
-│   ├── questions-policy.md # Context7/WebFetch first, then ask
-│   ├── morph-tools.md     # morph_edit vs edit tool selection policy
-│   ├── api-design.md      # API route handler standards
-│   ├── code-style.md      # Universal code style rules
-│   ├── self-improvement-rules.md # Plan mode, subagent strategy, verification
-│   ├── testing.md         # Testing standards
-│   ├── exploring.md       # Explore-pro delegation rules
-│   └── prefrences.md      # Combined autonomy + preferences
 ├── prompts/               # System prompts for each subagent
 │   ├── explore.md         # Read-only search agent
 │   ├── fast.md            # Fast coder for simple/boilerplate tasks
@@ -39,30 +26,33 @@ AI coding agent configuration for [OpenCode](https://opencode.ai). Contains suba
 │   ├── spec.md            # Spec-compliance reviewer
 │   ├── review.md          # Senior code reviewer
 │   └── vibe-tester.md     # Spec validation simulator
-└── skills/                # 96 reusable skill packages
+└── skills/                # 101 reusable skill packages
     ├── frontend-design/   # Production-grade UI components
     ├── backend-patterns/  # Express, Next.js, Node.js patterns
     ├── brainstorming/     # Creative planning workflow
     ├── database-migrations/ # Prisma, Drizzle, Django, TypeORM patterns
     ├── debugger/          # Systematic debugging workflow
     ├── security-review/   # Auth, input handling, secrets patterns
-    ├── pasta-lunch/       # Spaghetti code detection & refactoring
-    ├── ponytail-review/   # Over-engineering focused code review
+    ├── cs-senior-engineer/ # Senior engineering standards
+    ├── fable-mode/        # Staged execution discipline
+    ├── project-markdown/  # Repo documentation generator
+    ├── readme-writing/    # README improvement workflows
+    ├── vibe-app-audit/    # AI-built app security & hardening audit
     └── ... (90 more)
 ```
 
 ## Subagents
 
 | Agent | Model | Access | Purpose |
-|---|---|---|---|---|
-| `@fast-coder` | opencode-go/deepseek-v4-flash | bash, edit | Simple/boilerplate coding |
-| `@vibe-tester` | opencode-go/deepseek-v4-flash | bash (read-only) | Spec validation & gap analysis |
-| `@explore` | opencode-go/deepseek-v4-flash | bash (read-only) | Code/file search |
-| `@git-agent` | opencode/mimo-v2.5-free | bash (read-only) | Git operations |
-| `@docs-fetcher` | opencode/mimo-v2.5-free | none | Documentation lookup |
-| `@test-engineer` | opencode/mimo-v2.5-free | bash (read-only) | Build/test/lint |
-| `@spec-verifier` | opencode/mimo-v2.5-free | bash (read-only) | Spec compliance |
-| `@code-reviewer` | opencode-go/mimo-v2.5-pro | bash (read-only) | Code quality review |
+|---|---|---|---|
+| `@fast-coder` | deepseek/deepseek-v4-flash | bash | Simple/boilerplate coding |
+| `@vibe-tester` | opencode-go/kimi-k2.7-code | bash (read-only) | Spec validation & gap analysis |
+| `@explore` | deepseek/deepseek-v4-flash | bash (read-only) | Code/file search |
+| `@git-agent` | deepseek/deepseek-v4-flash | bash (read-only) | Git operations |
+| `@docs-fetcher` | deepseek/deepseek-v4-pro | none | Documentation lookup |
+| `@test-engineer` | deepseek/deepseek-v4-pro | bash (read-only) | Build/test/lint |
+| `@spec-verifier` | deepseek/deepseek-v4-pro | bash (read-only) | Spec compliance |
+| `@code-reviewer` | opencode-go/kimi-k2.7-code | bash (read-only) | Code quality review |
 
 ## MCP Servers
 
@@ -71,7 +61,6 @@ AI coding agent configuration for [OpenCode](https://opencode.ai). Contains suba
 | Context7 | Library documentation queries | API key |
 | Chrome DevTools | Browser automation and testing | None |
 | 21st.dev | UI component search and generation | API key |
-| Clipboard Vision | Screenshot analysis via Groq | API key |
 
 ## Plugins
 
@@ -83,34 +72,25 @@ AI coding agent configuration for [OpenCode](https://opencode.ai). Contains suba
 - `opencode-notification` — system notifications
 - `opencode-handoff` — session handoff
 - `opencode-kilo-auth` — additional auth
+- `opencode-see-image` — screenshot viewing via vision model
+- `opencode-wakatime` — coding time tracking
+- `opencode-devglobe` — status globe integration
 
-## Key Instructions
+## Key Behavioral Guidelines (from AGENTS.md)
 
-- **Delegate everything** — all search, git, test, and doc lookups go to subagents. The main context is for orchestration only.
-- **Stop slop** — no filler, passive voice, throat-clearing, em dashes, or quotables in prose.
+- **Delegation** — explore, docs-fetcher, git-agent, test-engineer, vibe-tester, spec-verifier, code-reviewer, fast-coder are the only things delegated. Main agent does reasoning/design/fixes.
+- **Ask before committing** — git commits require explicit user approval.
 - **Verify before claiming** — tests, lint, and typecheck must produce fresh evidence before marking anything done.
-- **Ask, don't guess** — technical facts go to Context7/WebFetch. Intent/preferences go to the user via questions tool.
-- **RPD mode** — parallel tool calls required unless editing the same file. Batch reads. No permission seeking.
-
-## Skill Highlights
-
-- **frontend-design** — React, Tailwind, shadcn/ui components
-- **backend-patterns** — Node.js, Express, Next.js API routes
-- **ui-ux-pro-max** — 50+ styles, 161 palettes, 57 font pairings
-- **impeccable** — frontend design audit and polish
-- **brainstorming** — structured creative planning with visual companion
-- **debug-investigator** — hypothesis-driven root cause analysis
-- **security-review** — input validation, auth, secrets handling
-- **database-migrations** — schema changes, rollbacks, zero-downtime
-- **rust-patterns** / **golang-testing** / **dart-flutter-patterns** — language-specific best practices
-- **skill-creator** / **writing-skills** — build and maintain skill packages
+- **Simplicity first** — minimum code that solves the problem. No features, abstractions, or config that wasn't requested.
+- **RPD mode** — collapse work into fewest turns, batch reads, skip optional verification.
+- **Surgical changes** — touch only what's required, match existing style, clean up only your own mess.
+- **Subagent-Driven Development** — vibe-tester → build → spec-verifier → code-reviewer pipeline.
 
 ## Configuration
 
 Edit `opencode.json` to:
 
 - Add or remove subagents under `agent`
-- Change instruction paths under `instructions`
 - Add plugins under `plugin`
 - Configure MCP servers under `mcp`
 
