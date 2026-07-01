@@ -6,7 +6,7 @@ AI coding agent configuration for [OpenCode](https://opencode.ai). Contains suba
 
 - **8 specialized subagents** — explore, git-agent, docs-fetcher, test-engineer, spec-verifier, code-reviewer, fast-coder, vibe-tester
 - **101 skills** — reusable packages for frontend, backend, design, debugging, DevOps, and more
-- **11 plugins** — superpowers, agent-skills, antigravity-auth, dcp, snip, notification, handoff, kilo-auth, see-image, wakatime, devglobe
+- **7 plugins** — superpowers, agent-skills, dcp, snip, notification, handoff, see-image
 - **3 MCP servers** — Context7 (docs), Chrome DevTools (browser automation), 21st.dev (UI components)
 - **RPD optimization mode** — parallel tool calls, batched reads, no permission seeking
 
@@ -66,15 +66,11 @@ AI coding agent configuration for [OpenCode](https://opencode.ai). Contains suba
 
 - `superpowers` — skill-based development workflow
 - `opencode-agent-skills` — expanded skill library
-- `opencode-antigravity-auth` — authentication
 - `@tarquinen/opencode-dcp` — deep context preservation
 - `opencode-snip` — snippet management
 - `opencode-notification` — system notifications
 - `opencode-handoff` — session handoff
-- `opencode-kilo-auth` — additional auth
 - `opencode-see-image` — screenshot viewing via vision model
-- `opencode-wakatime` — coding time tracking
-- `opencode-devglobe` — status globe integration
 
 ## Key Behavioral Guidelines (from AGENTS.md)
 

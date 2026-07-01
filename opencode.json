@@ -6,15 +6,11 @@
   "plugin": [
     "superpowers@git+https://github.com/obra/superpowers.git",
     "opencode-agent-skills",
-    "opencode-antigravity-auth@latest",
     "@tarquinen/opencode-dcp@latest",
     "opencode-snip@latest",
     "opencode-notification@latest",
     "opencode-handoff",
-    "opencode-kilo-auth@latest",
-    "opencode-see-image@1.1.0",
-    "opencode-wakatime",
-    "opencode-devglobe"
+    "opencode-see-image@1.1.0"
   ],
   "compaction": {
     "model": "deepseek/deepseek-v4-pro"
