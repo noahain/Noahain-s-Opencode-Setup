@@ -1,0 +1,47 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "theme": {
+    "name": "material",
+    "mode": "dark"
+  },
+  "diffs": {
+    "wrap": "word",
+    "view": "auto"
+  },
+  "prompt": {
+    "editor": true
+  },
+  "session": {
+    "sidebar": "hide",
+    "scrollbar": false,
+    "thinking": "hide",
+    "markdown": "rendered",
+    "grouping": "auto",
+    "verbosity": "medium",
+    "image_preview": false,
+    "new_location": "launch",
+    "permissions": "prompt"
+  },
+  "animations": true,
+  "tabs": {
+    "scope": "cwd",
+    "layout": "vertical",
+    "mode": "auto",
+    "indicators": "status"
+  },
+  "scroll": {
+    "acceleration": true
+  },
+  "attention": {
+    "notifications": true,
+    "sound": true,
+    "volume": 1
+  },
+  "terminal": {
+    "title": true,
+    "copy": "manual"
+  },
+  "debug": {
+    "devtools": false
+  }
+}

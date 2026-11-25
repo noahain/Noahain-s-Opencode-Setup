@@ -1,0 +1,154 @@
+/* Self-contained styles for updater-toast.js. Adjust colors to the app's theme. */
+
+#updater-container {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 320px;
+}
+
+.update-toast {
+    background: #1e1e1e;
+    color: #e8e8e8;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    font-size: 13px;
+    overflow: hidden;
+}
+
+.update-toast-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.update-toast-title {
+    font-weight: 600;
+}
+
+.update-toast-close {
+    background: none;
+    border: 0;
+    color: inherit;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 2px;
+    opacity: 0.6;
+}
+
+.update-toast-close:hover {
+    opacity: 1;
+}
+
+.update-toast-body {
+    padding: 12px;
+}
+
+.update-toast-body p {
+    margin: 0 0 4px;
+}
+
+.update-toast-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.update-toast-actions button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.update-toast-actions button:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.update-toast-actions .update-toast-update,
+.update-toast-actions .update-toast-restart,
+.update-toast-actions .update-toast-retry {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+}
+
+.update-toast-actions .update-toast-update:hover,
+.update-toast-actions .update-toast-restart:hover,
+.update-toast-actions .update-toast-retry:hover {
+    background: #1d4ed8;
+}
+
+.update-toast-progress {
+    margin-top: 10px;
+}
+
+.update-toast-progress-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.12);
+    overflow: hidden;
+}
+
+.update-toast-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #2563eb;
+    transition: width 0.2s ease;
+}
+
+.update-toast-progress-fill.indeterminate {
+    width: 40%;
+    animation: update-indeterminate 1.2s infinite ease-in-out;
+}
+
+@keyframes update-indeterminate {
+    0% { margin-left: -40%; }
+    100% { margin-left: 100%; }
+}
+
+.update-toast-progress-text {
+    display: block;
+    margin-top: 6px;
+    opacity: 0.8;
+}
+
+.update-toast-error {
+    margin-top: 8px;
+}
+
+.update-toast-error-title {
+    font-weight: 600;
+}
+
+@media (prefers-color-scheme: light) {
+    .update-toast {
+        background: #ffffff;
+        color: #1f2328;
+        border-color: rgba(0, 0, 0, 0.12);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+    .update-toast-header {
+        border-bottom-color: rgba(0, 0, 0, 0.08);
+    }
+    .update-toast-actions button {
+        border-color: rgba(0, 0, 0, 0.18);
+    }
+    .update-toast-actions button:hover {
+        background: rgba(0, 0, 0, 0.06);
+    }
+    .update-toast-progress-bar {
+        background: rgba(0, 0, 0, 0.12);
+    }
+}

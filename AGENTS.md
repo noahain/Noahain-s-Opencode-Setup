@@ -35,14 +35,23 @@ Delegate these and nothing else. Everything not listed stays with the main agent
 ## Autonomy & Permissions
 
 - **Ask before committing to git.**
+- **GitHub CLI identity:** for any `gh` write on my behalf (comments, issues, PRs), act as `noahain` — not `TheLumiDev`. The `GITHUB_TOKEN` env var holds a `TheLumiDev` token and overrides the stored accounts, so clear it in-process (`$env:GITHUB_TOKEN = $null`), run `gh auth switch --user noahain` if needed, and confirm with `gh api user --jq .login` before posting.
 - **Always ask before destructive actions**, in every mode including Full-Autonomy: deleting files, modifying production data, force-pushing, dropping databases, or any irreversible command that reaches outside the current project scope.
 - **Autonomous Bug Fixing (technical execution):** given a bug report, just fix it — don't ask for hand-holding on *how*. Point at the logs, errors, or failing tests, then resolve them. Go fix failing CI without being told the steps. Still ask if the requirement or intent behind the fix is ambiguous.
+
+## Chrome Attach Mode (Chrome DevTools MCP)
+
+- The global Chrome DevTools MCP runs `--autoConnect`: it attaches to my everyday Chrome — it never launches its own. Chrome must be running before any browser tool is used.
+- Before browser tools can work, **I** must enable remote debugging in `chrome://inspect/#remote-debugging` (once per Chrome session) and click **Allow** on the "incoming debugging connection" prompt when the first tool call triggers it.
+- When browser tool calls fail or time out (`Network.enable timed out`, closed-socket errors): first tell me to check that remote debugging is enabled in `chrome://inspect/#remote-debugging` and Chrome is open, then retry — don't debug other causes first.
+- Never navigate, reload, or close my existing tabs; open a new tab for automation.
 
 ## Planning & Verification
 
 - For multi-step or architectural work, state a brief plan with checkable, verifiable steps before starting.
 - Turn vague tasks into verifiable goals: "fix the bug" → "write a test that reproduces it, then make it pass"; "add validation" → "test invalid inputs, then make them pass."
 - Never claim done without proof: run tests, typecheck, and lint (via `test-engineer`) and demonstrate correctness. "Assume success" is only acceptable in RPD mode.
+- **UI visual checks are the user's job.** Do not drive Chrome DevTools MCP (page reloads, screenshots, hover/click probes) for routine visual changes unless I explicitly ask. Make the change, run only the cheap syntax/token checks, then tell me exactly what to reload and try.
 - If something goes sideways, stop and re-plan — don't keep pushing.
 
 ## Delivery Contract
@@ -57,6 +66,7 @@ When a task is ready for me to test, close with one final message — not a step
 ## Self-Improvement Loop
 
 - After any correction from me, add a specific, actionable rule to `AGENTS.md` that prevents the same mistake from recurring.
+- Keep responses small: cap tool batches (~6 calls) and message length; split heavy work into multiple turns rather than one mega-response (a mid-task output-limit cutoff loses work).
 - Write the rule for yourself: concrete, testable, not aspirational.
 - Iterate on these rules until the mistake rate drops; prune ones that stop earning their place.
 
@@ -74,6 +84,7 @@ Lazy about *scope*, never about *correctness*.
 ## Surgical Changes
 
 - Touch only what the request requires; every changed line should trace to it.
+- When a source document is the deliverable ("create a skill for this document", "turn this spec into X"), preserve it verbatim. Add only what the format requires (frontmatter, pointers); propose any other additions as questions instead of folding them in.
 - Don't "improve" adjacent code, comments, or formatting, and don't refactor things that aren't broken.
 - Match existing style even if you'd do it differently.
 - Remove imports/variables/functions that *your* changes orphaned; leave pre-existing dead code alone but mention it.

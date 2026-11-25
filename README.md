@@ -1,96 +1,100 @@
 # Noahain's OpenCode Setup
 
-AI coding agent configuration for [OpenCode](https://opencode.ai). Contains subagent definitions, skill packages, behavioral guidelines, and MCP server setup.
+AI coding agent configuration for [OpenCode](https://opencode.ai). Includes subagent definitions, skill packages, behavioral guidelines, plugins, custom tools, and MCP servers.
 
-## Features
+## Repository layout
 
-- **8 specialized subagents** — explore, git-agent, docs-fetcher, test-engineer, spec-verifier, code-reviewer, fast-coder, vibe-tester
-- **101 skills** — reusable packages for frontend, backend, design, debugging, DevOps, and more
-- **7 plugins** — superpowers, agent-skills, dcp, snip, notification, handoff, see-image
-- **3 MCP servers** — Context7 (docs), Chrome DevTools (browser automation), 21st.dev (UI components)
-- **RPD optimization mode** — parallel tool calls, batched reads, no permission seeking
-
-## Structure
+A clone contains the setup files at the repository root:
 
 ```
-├── opencode.json          # Main config — agents, plugins, MCP
-├── dcp.jsonc              # Deep Context Preservation config
-├── AGENTS.md              # Behavioral guidelines for LLM agents (177 lines, loaded as instruction)
-├── .gitignore
-├── prompts/               # System prompts for each subagent
-│   ├── explore.md         # Read-only search agent
-│   ├── fast.md            # Fast coder for simple/boilerplate tasks
-│   ├── git.md             # Git operations agent
-│   ├── docs.md            # Documentation fetcher (Context7/WebFetch)
-│   ├── test.md            # Build/lint/test runner
-│   ├── spec.md            # Spec-compliance reviewer
-│   ├── review.md          # Senior code reviewer
-│   └── vibe-tester.md     # Spec validation simulator
-└── skills/                # 101 reusable skill packages
-    ├── frontend-design/   # Production-grade UI components
-    ├── backend-patterns/  # Express, Next.js, Node.js patterns
-    ├── brainstorming/     # Creative planning workflow
-    ├── database-migrations/ # Prisma, Drizzle, Django, TypeORM patterns
-    ├── debugger/          # Systematic debugging workflow
-    ├── security-review/   # Auth, input handling, secrets patterns
-    ├── cs-senior-engineer/ # Senior engineering standards
-    ├── fable-mode/        # Staged execution discipline
-    ├── project-markdown/  # Repo documentation generator
-    ├── readme-writing/    # README improvement workflows
-    ├── vibe-app-audit/    # AI-built app security & hardening audit
-    └── ... (90 more)
+├── opencode.json           # agents, plugins, MCP servers, providers
+├── cli.json                # terminal / TUI preferences
+├── dcp.jsonc               # Deep Context Preservation config
+├── AGENTS.md               # behavioral guidelines (loaded as instructions)
+├── .env.example            # environment variables for API keys
+├── commands/               # custom commands
+├── prompts/                # system prompts for each subagent
+├── skills/                 # 120 reusable skill packages
+├── tools/                  # quorum_* custom tools used by the clerk agent
+├── lib/                    # shared helpers for the quorum tools
+├── package.json
+└── bun.lock
 ```
+
+On the maintainer's machine the working tree is checked out one level down:
+
+```
+Noahain's Opencode Setup/
+└── setup/                  # the repository working tree
+```
+
+Opening the parent `Noahain's Opencode Setup` folder in OpenCode uses only the global config. Opening `setup/` directly would also load this repo's `opencode.json` as a project config.
+
+## Installation
+
+Clone or symlink this repository into your OpenCode config directory:
+
+```powershell
+# Windows (symlink requires Developer Mode or an elevated shell)
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.config\opencode" -Target "<path-to-this-repo>"
+```
+
+```sh
+# macOS / Linux
+ln -s "/path/to/Noahain's Opencode Setup/setup" ~/.config/opencode
+```
+
+Then export the API keys listed in `.env.example` (or set them as system environment variables) before starting OpenCode. `opencode.json` references them with `{env:VAR}` substitution. OpenCode creates `service.json`, `node_modules/`, and `backups/` on first run; they are gitignored.
 
 ## Subagents
 
 | Agent | Model | Access | Purpose |
 |---|---|---|---|
-| `@fast-coder` | deepseek/deepseek-v4-flash | bash | Simple/boilerplate coding |
-| `@vibe-tester` | opencode-go/kimi-k2.7-code | bash (read-only) | Spec validation & gap analysis |
-| `@explore` | deepseek/deepseek-v4-flash | bash (read-only) | Code/file search |
-| `@git-agent` | deepseek/deepseek-v4-flash | bash (read-only) | Git operations |
-| `@docs-fetcher` | deepseek/deepseek-v4-pro | none | Documentation lookup |
-| `@test-engineer` | deepseek/deepseek-v4-pro | bash (read-only) | Build/test/lint |
-| `@spec-verifier` | deepseek/deepseek-v4-pro | bash (read-only) | Spec compliance |
-| `@code-reviewer` | opencode-go/kimi-k2.7-code | bash (read-only) | Code quality review |
+| `clerk` | `opencode/deepseek-v4.1-flash-free` | quorum tools only | Swarm audit/verify orchestration |
+| `fast-coder` | `opencode/deepseek-v4.1-flash-free` | edit | Simple/boilerplate coding |
+| `vibe-tester` | `opencode/deepseek-v4.1-flash-free` | bash | Spec validation & gap analysis |
+| `explore` | `opencode/deepseek-v4.1-flash-free` | bash (read-only) | Code/file search |
+| `git-agent` | `opencode/deepseek-v4.1-flash-free` | bash (read-only) | Git operations |
+| `docs-fetcher` | `opencode/deepseek-v4.1-flash-free` | none | Documentation lookup |
+| `test-engineer` | `opencode/deepseek-v4.1-flash-free` | bash | Build/test/lint |
+| `spec-verifier` | `opencode/deepseek-v4.1-flash-free` | none | Spec compliance |
+| `code-reviewer` | `opencode/deepseek-v4.1-flash-free` | bash | Code quality review |
 
-## MCP Servers
+## Commands
 
-| Server | Purpose | Auth Required |
+| Command | Purpose |
+|---|---|
+| `/impeccable` | Frontend design review and improvement |
+| `/learned` | Summarize session learnings into `AGENTS.md` blocks |
+| `/skillhelp` | Recommend skills for the current task |
+
+## MCP servers
+
+| Server | Purpose | Auth |
 |---|---|---|
-| Context7 | Library documentation queries | API key |
-| Chrome DevTools | Browser automation and testing | None |
-| 21st.dev | UI component search and generation | API key |
+| Context7 | Library documentation queries | `CONTEXT7_API_KEY` |
+| Chrome DevTools | Browser automation (attaches to your Chrome) | None |
+| repowise | Codebase documentation engine | None |
+| figma | Figma design/code bridge | OAuth via `/mcps` |
+
+`repowise` is configured against `F:\Coding Projects\Monolith`; update the path in `opencode.json` for another repository.
 
 ## Plugins
 
 - `superpowers` — skill-based development workflow
-- `opencode-agent-skills` — expanded skill library
 - `@tarquinen/opencode-dcp` — deep context preservation
-- `opencode-snip` — snippet management
-- `opencode-notification` — system notifications
+- `opencode-wakatime` — WakaTime activity tracking
 - `opencode-handoff` — session handoff
-- `opencode-see-image` — screenshot viewing via vision model
 
-## Key Behavioral Guidelines (from AGENTS.md)
+## Providers
 
-- **Delegation** — explore, docs-fetcher, git-agent, test-engineer, vibe-tester, spec-verifier, code-reviewer, fast-coder are the only things delegated. Main agent does reasoning/design/fixes.
-- **Ask before committing** — git commits require explicit user approval.
-- **Verify before claiming** — tests, lint, and typecheck must produce fresh evidence before marking anything done.
-- **Simplicity first** — minimum code that solves the problem. No features, abstractions, or config that wasn't requested.
-- **RPD mode** — collapse work into fewest turns, batch reads, skip optional verification.
-- **Surgical changes** — touch only what's required, match existing style, clean up only your own mess.
-- **Subagent-Driven Development** — vibe-tester → build → spec-verifier → code-reviewer pipeline.
+`opencode.json` defines 15 provider entries under `providers` (V2 shape) and `provider` (legacy shape). All live API keys are replaced with `{env:VAR}` placeholders. Local endpoints such as `wapq`, `arena`, `glm-proxy`, and `abliteration` point at localhost ports and are environment-specific.
 
-## Configuration
+## Notes
 
-Edit `opencode.json` to:
-
-- Add or remove subagents under `agent`
-- Add plugins under `plugin`
-- Configure MCP servers under `mcp`
-
-MCP API keys (`Context7` and `21st`) are configured in `opencode.json` and should be populated before first use.
+- The repository is public. Never commit real API keys, `.env`, or `service.json`.
+- `AGENTS.md` holds the behavioral guidelines: delegation rules, autonomous bug fixing, verification requirements, RPD mode, and opt-in development modes.
+- `tools/quorum_*.ts` and `lib/` support the `clerk` agent. Disable the `quorum_*` tools with `tools` in `opencode.json` if you do not use it.
 
 ## License
 

@@ -1,3 +1,19 @@
+# Secrets
+.env
+service.json
+antigravity-accounts.json
+antigravity-accounts.json.*.tmp
+antigravity-signature-cache.json
+antigravity-logs/
+
+# OpenCode runtime
+node_modules/
+package-lock.json
+backups/
+
+# Local machine
+.gemini/
+
 # OS
 .DS_Store
 Thumbs.db
@@ -9,10 +25,6 @@ desktop.ini
 *~
 .vscode/
 .idea/
-
-# Node
-node_modules/
-package-lock.json
 
 # Python
 __pycache__/
